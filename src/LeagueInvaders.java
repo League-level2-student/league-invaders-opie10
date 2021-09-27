@@ -31,7 +31,7 @@ void setup() {
 	jf.setSize(width, height);
 	jf.setVisible(true);
 	jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+jf.addKeyListener(GP);
 
 
 	
