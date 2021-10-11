@@ -1,8 +1,10 @@
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ObjectManager {
+public class ObjectManager implements ActionListener{
 	ArrayList<Projectile> pew= new ArrayList<>();
 	ArrayList<Alien> invasive= new ArrayList<>();
 	Random rand = new Random();
@@ -32,6 +34,9 @@ public void draw(Graphics g) {
 	for (int i = 0; i < invasive.size(); i++) {
 		invasive.get(i).draw(g);
 	}
+	for (int i = 0; i < pew.size(); i++) {
+		pew.get(i).draw(g);
+	}
 }
 public void purgeObjects(){
 	
@@ -42,5 +47,11 @@ public void purgeObjects(){
 		}
 	}
 	
+}
+
+@Override
+public void actionPerformed(ActionEvent e) {
+	// TODO Auto-generated method stub
+	addAlien();
 }
 }

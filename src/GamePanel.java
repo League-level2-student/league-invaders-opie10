@@ -5,7 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -17,13 +20,21 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Rocketship rs = new Rocketship(250, 700, 50, 50);
 	Font titleFont = new Font("Arial", Font.BOLD, 29);
 	Font menuFont = new Font("Arial", Font.ITALIC, 20);
+	BufferedImage bg ;
 	ObjectManager karen = new ObjectManager(rs);
-	
+	Timer alienSpawn ;
 	public GamePanel() {
 
 		Timer frameDraw = new Timer(1000 / 60, this);
 		frameDraw.start();
-
+		alienSpawn = new Timer(1000 , karen);
+		
+		try {
+			bg = ImageIO.read(this.getClass().getResourceAsStream("space.jpg"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// game state updates
@@ -55,8 +66,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	public void drawGameState(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
+		g.drawImage(bg, 0, 0, LeagueInvaders.width, LeagueInvaders.height, null);
+		
 		karen.draw(g);
 	
 	}
@@ -116,6 +127,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			}
 		}
 		if (currentState == GAME) {
+			startGame();
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
 
 				System.out.println("UP");
@@ -154,6 +166,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 					rs.x = 500 - rs.width;
 				}
 			}
+			if(e.getKeyCode() == KeyEvent.VK_SPACE ) {
+			karen.addProjectile(rs.getProjectile());
+			}
 		}
 	}
 
@@ -162,5 +177,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 
 	}
-
+public void startGame() {
+	
+	
+	alienSpawn.start();
+}
 }
