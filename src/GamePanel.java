@@ -40,10 +40,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	// game state updates
 
 	public void updateMenuState() {
+		
 	}
 
 	public void updateGameState() {
+		
 		karen.update();
+		if (rs.isActive==false) {
+			currentState = END;
+			System.out.println("DEAD ROCKET MAN");
+		}
 	}
 
 	public void updateEndState() {
@@ -67,6 +73,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 
 	public void drawGameState(Graphics g) {
 		g.drawImage(bg, 0, 0, LeagueInvaders.width, LeagueInvaders.height, null);
+		g.setFont(menuFont);
+		g.setColor(Color.WHITE);
+		
+		g.drawString(karen.score+"", 10, 20);
 		
 		karen.draw(g);
 	
@@ -77,7 +87,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.fillRect(0, 0, LeagueInvaders.width, LeagueInvaders.height);
 		g.setFont(titleFont);
 		g.setColor(Color.BLACK);
-		g.drawString("GAME OVER", 150, 200);
+		g.drawString("GAME OVER", 160, 200);
+		g.setFont(menuFont);
+		g.setColor(Color.BLACK);
+		g.drawString("You got a score of "+karen.score+" before you died.", 90, 400);
 		g.setFont(menuFont);
 		g.setColor(Color.BLACK);
 		g.drawString("Press Enter to try again.", 150, 600);
@@ -121,6 +134,11 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			if (currentState == END) {
+				 rs = new Rocketship(250, 700, 50, 50);
+				 karen = new ObjectManager(rs);
+				 alienSpawn = new Timer(1000 , karen);
+					
+				 karen.score = 0;
 				currentState = MENU;
 			} else {
 				currentState++;
@@ -128,6 +146,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		}
 		if (currentState == GAME) {
 			startGame();
+			rs.update();
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
 
 				System.out.println("UP");
