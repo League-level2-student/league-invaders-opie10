@@ -8,6 +8,8 @@ public class Rocketship extends GameObject{
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;	
+	int xspeed ;
+	int yspeed ;
 	Rocketship(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		// TODO Auto-generated constructor stub
@@ -28,16 +30,30 @@ void draw(Graphics g)
 
 }
 public void right() {
-    x+=speed;
+    xspeed=5;
+    super.update();
 }
 public void left() {
-    x-=speed;
+    xspeed=-5;
+    super.update();
 }
 public void up() {
-    y-=speed;
+    yspeed=-5;
+    super.update();
 }
 public void down() {
-    y+=speed;
+   yspeed=5;
+   super.update();
+}
+public void update () {
+	if (x + xspeed > 0 && x+width+xspeed<LeagueInvaders.width) {
+		x += xspeed ;
+	}
+	if (y+yspeed> 0 && y+height+yspeed<LeagueInvaders.height) {
+		y += yspeed ;
+	}
+	
+	super.update();
 }
 void loadImage(String imageFile) {
     if (needImage) {

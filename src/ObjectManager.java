@@ -11,7 +11,7 @@ public class ObjectManager implements ActionListener {
 	Random rand = new Random();
 	Rocketship r;
 	int score = 0;
-	
+	Boolean isInvincible =false;
 
 	ObjectManager(Rocketship Rr) {
 		r = Rr;
@@ -44,6 +44,7 @@ public class ObjectManager implements ActionListener {
 		checkCollision();
 		purgeObjects();
 		scoreTrack();
+		r.update();
 	}
 
 	public void draw(Graphics g) {
@@ -68,11 +69,15 @@ public class ObjectManager implements ActionListener {
 	}
 
 	public void checkCollision() {
+		
 		for (int i = 0; i < invasive.size(); i++) {
 			Rectangle alienc = invasive.get(i).collisionBox;
 			Rectangle shipc = r.collisionBox;
-			if (alienc.intersects(shipc)) {
-				r.isActive = false;
+			if (isInvincible==false) {
+				if (alienc.intersects(shipc)) {
+					r.isActive = false;
+			}
+			
 			}
 			for (int p = 0; p < pew.size(); p++) {
 				Rectangle rt = pew.get(p).collisionBox;

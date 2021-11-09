@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -23,6 +24,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	BufferedImage bg ;
 	ObjectManager karen = new ObjectManager(rs);
 	Timer alienSpawn ;
+	
 	public GamePanel() {
 
 		Timer frameDraw = new Timer(1000 / 60, this);
@@ -48,8 +50,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		karen.update();
 		if (rs.isActive==false) {
 			currentState = END;
-			System.out.println("DEAD ROCKET MAN");
+		
 		}
+		
 	}
 
 	public void updateEndState() {
@@ -144,12 +147,19 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 				currentState++;
 			}
 		}
+		
+		if (currentState == MENU) {
+			if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+				
+			JOptionPane.showMessageDialog(null, "Space to shoot\n" + "Arrow keys to move\n" + "Enter to restart\n","Instructions",JOptionPane.INFORMATION_MESSAGE);
+		}
+		}
 		if (currentState == GAME) {
 			startGame();
 			rs.update();
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
 
-				System.out.println("UP");
+				
 				if (rs.y - 10 > 0) {
 					rs.up();
 				} else {
@@ -159,7 +169,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			}
 
 			if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-				System.out.println("DOWN");
+				
 				if (rs.y + rs.height + 10+20 < 800) {
 					rs.down();
 				} else {
@@ -169,7 +179,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			}
 
 			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-				System.out.println("LEFT");
+				
 				if (rs.x - 10 > 0) {
 					rs.left();
 				} else {
@@ -178,7 +188,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			}
 
 			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-				System.out.println("RIGHT");
+				
 				if (rs.x + rs.width + 10 < 500) {
 					rs.right();
 				} else {
@@ -187,14 +197,24 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			}
 			if(e.getKeyCode() == KeyEvent.VK_SPACE ) {
 			karen.addProjectile(rs.getProjectile());
+			
 			}
+			if(e.getKeyCode() == KeyEvent.VK_BACK_SLASH ) {
+				karen.isInvincible=true;
+				
+				}
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-
+if (e.getKeyCode() == KeyEvent.VK_RIGHT ||e.getKeyCode() == KeyEvent.VK_LEFT) {
+	rs.xspeed=0;
+}
+if (e.getKeyCode() == KeyEvent.VK_UP ||e.getKeyCode() == KeyEvent.VK_DOWN) {
+	rs.yspeed=0;
+}
 	}
 public void startGame() {
 	
