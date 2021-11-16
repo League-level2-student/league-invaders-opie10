@@ -24,12 +24,20 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	BufferedImage bg ;
 	ObjectManager karen = new ObjectManager(rs);
 	Timer alienSpawn ;
-	
+	int difficulty = 0 ;
+	static final int easy = 1 ;
+	static final int hard = 2 ;
+	static final int expert = 3 ;
+	static final int insane = 4 ;
 	public GamePanel() {
 
 		Timer frameDraw = new Timer(1000 / 60, this);
 		frameDraw.start();
-		alienSpawn = new Timer(1000 , karen);
+			
+
+
+
+		
 		
 		try {
 			bg = ImageIO.read(this.getClass().getResourceAsStream("space.jpg"));
@@ -68,10 +76,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		g.drawString("WELCOME TO LEAGUE INVASION", 10, 100);
 		g.setFont(menuFont);
 		g.setColor(Color.YELLOW);
-		g.drawString("Press Enter", 200, 400);
+		g.drawString("Press Enter", 190, 400);
 		g.setFont(menuFont);
 		g.setColor(Color.YELLOW);
 		g.drawString("Space for Instructions", 150, 650);
+		g.setColor(Color.YELLOW);
+		g.drawString("PRESS E FOR EASY MODE", 110, 250);
+		g.drawString(" PRESS H FOR HARD MODE", 100, 270);
+		g.drawString("PRESS X FOR EXPERT MODE", 100, 290);
+		g.drawString("PRESS I FOR INSANE MODE", 100, 310);
 	}
 
 	public void drawGameState(Graphics g) {
@@ -152,7 +165,39 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 			if(e.getKeyCode() == KeyEvent.VK_SPACE) {
 				
 			JOptionPane.showMessageDialog(null, "Space to shoot\n" + "Arrow keys to move\n" + "Enter to restart\n","Instructions",JOptionPane.INFORMATION_MESSAGE);
-		}
+		
+			}
+			
+			if (e.getKeyCode() == KeyEvent.VK_E) {
+			
+			karen.changeSpeed(easy);
+			JOptionPane.showMessageDialog(null, "You are in EASY mode","Difficulty",JOptionPane.INFORMATION_MESSAGE);
+			difficulty = 1 ;
+			alienSpawn = new Timer(1000 , karen);
+			}
+			
+			
+			if (e.getKeyCode() == KeyEvent.VK_H) {
+				
+				karen.changeSpeed(hard);
+				JOptionPane.showMessageDialog(null, "You are in HARD mode","Difficulty",JOptionPane.INFORMATION_MESSAGE);
+				difficulty = 2 ;
+				alienSpawn = new Timer(700 , karen);
+			}
+			if (e.getKeyCode() == KeyEvent.VK_X) {
+				
+				karen.changeSpeed(expert);
+				JOptionPane.showMessageDialog(null, "You are in EXPERT mode","Difficulty",JOptionPane.INFORMATION_MESSAGE);
+				difficulty = 3;
+				alienSpawn = new Timer(500 , karen);
+			}
+			if (e.getKeyCode() == KeyEvent.VK_I) {
+				
+				karen.changeSpeed(insane);
+				JOptionPane.showMessageDialog(null, "You are in INSANE mode","Difficulty",JOptionPane.INFORMATION_MESSAGE);
+				difficulty = 4 ;
+				alienSpawn = new Timer(100 , karen);
+			}
 		}
 		if (currentState == GAME) {
 			startGame();

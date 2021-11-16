@@ -11,7 +11,7 @@ public class ObjectManager implements ActionListener {
 	Random rand = new Random();
 	Rocketship r;
 	int score = 0;
-	Boolean isInvincible =false;
+	Boolean isInvincible = false;
 
 	ObjectManager(Rocketship Rr) {
 		r = Rr;
@@ -41,10 +41,12 @@ public class ObjectManager implements ActionListener {
 				invasive.get(i).isActive = false;
 			}
 		}
+
 		checkCollision();
 		purgeObjects();
 		scoreTrack();
 		r.update();
+
 	}
 
 	public void draw(Graphics g) {
@@ -55,6 +57,27 @@ public class ObjectManager implements ActionListener {
 		for (int i = 0; i < pew.size(); i++) {
 			pew.get(i).draw(g);
 		}
+	}
+
+	public void changeSpeed(int difficulty) {
+
+		if (difficulty == GamePanel.easy) {
+
+			Alien.initialSpeed = 1;
+		} else if (difficulty == GamePanel.hard) {
+
+			Alien.initialSpeed = 7;
+		}
+
+		else if (difficulty == GamePanel.expert) {
+
+			Alien.initialSpeed = 15;
+		} else if (difficulty == GamePanel.insane) {
+
+			Alien.initialSpeed = 50;
+
+		}
+
 	}
 
 	public void purgeObjects() {
@@ -69,22 +92,22 @@ public class ObjectManager implements ActionListener {
 	}
 
 	public void checkCollision() {
-		
+
 		for (int i = 0; i < invasive.size(); i++) {
 			Rectangle alienc = invasive.get(i).collisionBox;
 			Rectangle shipc = r.collisionBox;
-			if (isInvincible==false) {
+			if (isInvincible == false) {
 				if (alienc.intersects(shipc)) {
 					r.isActive = false;
-			}
-			
+				}
+
 			}
 			for (int p = 0; p < pew.size(); p++) {
 				Rectangle rt = pew.get(p).collisionBox;
 				if (rt.intersects(alienc)) {
 					pew.get(p).isActive = false;
 					invasive.get(i).isActive = false;
-					score+=1;
+					score += 1;
 				}
 
 			}
@@ -94,7 +117,6 @@ public class ObjectManager implements ActionListener {
 
 	public int scoreTrack() {
 
-	
 		return score;
 
 	}

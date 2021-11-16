@@ -8,10 +8,11 @@ public class Alien extends GameObject {
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;	
+	static int initialSpeed = 1;
 	Alien(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		// TODO Auto-generated constructor stub
-		speed = 1;
+		speed = initialSpeed;
 		if (needImage) {
 		    loadImage ("ufo.png");
 		}
@@ -25,6 +26,7 @@ public class Alien extends GameObject {
 
 public void update() {
 y+=speed;
+System.out.println(speed);
 super.update();
 }
 public void draw(Graphics g) {
